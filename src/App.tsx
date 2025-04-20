@@ -48,7 +48,7 @@ const router = createBrowserRouter([
         element: (
           <RequireAuth>
             <Suspense fallback={<LazyLoaderComponent />}>
-              <section>Dummy App Tes2</section>
+              <section className="p-0 text-blue-500">Dummy App Test</section>
             </Suspense>
           </RequireAuth>
         ),
@@ -62,17 +62,13 @@ const router = createBrowserRouter([
   },
 ]);
 
-export function render() {
-  // #root is core of the application, it will be always available
-  const root = createRoot(document.getElementById("root") as HTMLElement);
-
-  // TODO: Add strictmode here
-  root.render(
+export default function App() {
+  return (
     <StrictMode>
       <Provider store={store}>
         <ShowSimpleNotification />
         <RouterProvider router={router} />
       </Provider>
-    </StrictMode>,
+    </StrictMode>
   );
 }

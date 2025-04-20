@@ -1,4 +1,4 @@
-import { useState, FC, ReactNode } from "react";
+import React, { useState, FC, ReactNode } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -57,13 +57,17 @@ export const RequireAuth: FC<REQUIRE_AUTH_TYPE> = ({ children }) => {
     setIsLoading(false);
   });
 
-  if (isLoading) {
-    return LazyLoaderComponent();
-  } else {
-    if (authUserData.success) {
-      return children; // Render the protected component if authenticated
-    } else {
-      return UnauthorizedPage;
-    }
-  }
+  return <section>
+    fix the issue
+  </section>
+
+  // if (isLoading) {
+  //   return LazyLoaderComponent();
+  // } else {
+  //   if (authUserData.success) {
+  //     return children; // Render the protected component if authenticated
+  //   } else {
+  //     return UnauthorizedPage;
+  //   }
+  // }
 };

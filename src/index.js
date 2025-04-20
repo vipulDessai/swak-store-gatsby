@@ -1,8 +1,11 @@
-import { render } from "./App";
+import { createRoot } from "react-dom/client";
+
+import App from "./App";
 
 // use the dynamic import for faster app loading in the browser
 async function begin() {
-  render();
+  // #root is core of the application, it will be always available
+  const root = createRoot(document.getElementById("root"));
 
   if (process.env.NODE_ENV !== "local") {
     if ("serviceWorker" in navigator) {
@@ -18,6 +21,10 @@ async function begin() {
       });
     }
   }
+
+  root.render(
+    <App></App>
+  );
 }
 
 begin();
