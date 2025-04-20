@@ -1,87 +1,67 @@
 module.exports = {
-    extends: [
-      "eslint:recommended",
-      "plugin:react/recommended"
-    ],
-    plugins: ["standard", "react"],
-    rules: {
-      "strict": 0,
-      "no-var": "error", // optional, recommended when using es6+
-      "no-unused-vars": 1, // recommended
-      "arrow-spacing": ["error", { before: true, after: true }], // recommended
-      indent: ["error", 2],
-      "comma-dangle": [
-        "error",
-        {
-          objects: "only-multiline",
-          arrays: "only-multiline",
-          imports: "never",
-          exports: "never",
-          functions: "never",
-        },
-      ],
-  
-      // options to emulate prettier setup
-      semi: ["error", "never"],
-      "max-len": ["error", { code: 80 }],
-      "template-curly-spacing": ["error", "always"],
-      "arrow-parens": ["error", "as-needed"],
-  
-      // standard.js
-      "space-before-function-paren": [
-        "error",
-        {
-          named: "always",
-          anonymous: "always",
-          asyncArrow: "always",
-        },
-      ],
-  
-      // standard plugin - options
-      "standard/object-curly-even-spacing": ["error", "either"],
-      "standard/array-bracket-even-spacing": ["error", "either"],
-      "standard/computed-property-even-spacing": ["error", "even"],
-      "standard/no-callback-literal": ["error", ["cb", "callback"]],
-  
-      // react plugin - options
-      "react/jsx-uses-react": "error",
-      "react/jsx-uses-vars": "error",
-
-      //custom
-      "no-undef": 0,
-      "max-len": 0,
-      "react/prop-types": 0,
-      "react/no-unescaped-entities": 0,
-      "no-eval": 1,
-      "no-implied-eval": 1,
+  env: {
+    browser: true,
+    es2021: true,
+  },
+  settings: {
+    // General React settings
+    react: {
+      version: "18", // Automatically detect the React version for non-overridden configurations
     },
-    parser: "babel-eslint",
-    parserOptions: {
-      ecmaVersion: 8, // optional, recommended 6+
+  },
+  extends: [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+  ],
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
     },
-    "settings": {
-      "react": {
-        "createClass": "createReactClass", // Regex for Component Factory to use,
-                                           // default to "createReactClass"
-        "pragma": "React",  // Pragma to use, default to "React"
-        "version": "detect", // React version. "detect" automatically picks the version you have installed.
-                             // You can also use `16.0`, `16.3`, etc, if you want to override the detected value.
-        "flowVersion": "0.53" // Flow version
+    ecmaVersion: 12,
+    sourceType: "module",
+  },
+  plugins: ["react", "@typescript-eslint"],
+  rules: {
+    // here the rules added will impact both the js and ts files
+    // ADD WITH CAUTION
+  },
+  overrides: [
+    // Apply only to typescript files
+    {
+      files: ["*.tsx", "*.ts"],
+      rules: {
+        "@typescript-eslint/no-unused-vars": ["warn"],
+        "@typescript-eslint/no-require-imports": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/ban-ts-comment": "off",
       },
-      "propWrapperFunctions": [
-          // The names of any function used to wrap propTypes, e.g. `forbidExtraProps`. If this isn't set, any propTypes wrapped in a function will be skipped.
-          "forbidExtraProps",
-          {"property": "freeze", "object": "Object"},
-          {"property": "myFavoriteWrapper"}
-      ],
-      "linkComponents": [
-        // Components used as alternatives to <a> for linking, eg. <Link to={ url } />
-        "Hyperlink",
-        {"name": "Link", "linkAttribute": "to"}
-      ]
     },
-    "env": {
-      "browser": true,
-      "node": true,
-    }
-  }
+    // Rule for plain javascript files
+    {
+      files: ["*.jsx", "*.js"],
+      rules: {
+        "react/no-unescaped-entities": "warn",
+        "no-prototype-builtins": "warn",
+        "no-unreachable": "warn",
+        "react/display-name": "warn",
+        "react/jsx-key": "warn",
+        "no-empty": "warn",
+        "no-empty-pattern": "off",
+        "react/prop-types": "off",
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": "off",
+        "no-case-declarations": "off",
+        "@typescript-eslint/no-unused-expressions": "off",
+        "@typescript-eslint/no-require-imports": "off",
+        "@typescript-eslint/no-array-constructor": "off",
+      },
+    },
+  ],
+  globals: {
+    // Declare global variables here
+    process: "writable",
+    module: "writable",
+    require: "writable",
+  },
+};
