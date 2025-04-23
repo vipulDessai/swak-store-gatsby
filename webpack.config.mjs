@@ -54,7 +54,7 @@ switch (NODE_ENV) {
     skipTypeCheck = false; // set false in local env
     cachePrebuildLibBinaries = false; // set false in local env
     needHotReload = true; // set true in local env
-    needBundleAnalyser = true; // set true in local env
+    needBundleAnalyser = false; // set true in local env
     webpackMode = "development";
 
     // setting for local build (uncomment to build with env.local locally)
@@ -288,25 +288,6 @@ export default {
               "postcss-loader",
             ],
           },
-          // process the application only SCSS
-          {
-            test: /\.scss$/,
-            exclude: /node_modules/,
-            use: [
-              {
-                loader: MiniCssExtractPlugin.loader,
-                options: { esModule: true }, // Required for lazy loading
-              },
-              {
-                loader: "css-loader", // Process CSS files
-                options: {
-                  importLoaders: 3,
-                  url: false, // Ignore `url()` paths in CSS
-                },
-              },
-              "sass-loader", // Process SCSS files
-            ],
-          },
 
           // process the css from NPM packages
           // so that the styles for the NPM packages
@@ -353,6 +334,9 @@ export default {
   },
 
   plugins: [
+    new webpack.ProvidePlugin({
+      React: "react",
+    }),
     new webpack.ProgressPlugin(),
     // Enables React HMR
     new ReactRefreshWebpackPlugin({

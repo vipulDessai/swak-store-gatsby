@@ -41,6 +41,7 @@ module.exports = {
     {
       files: ["*.jsx", "*.js"],
       rules: {
+        "react/react-in-jsx-scope": "off",
         "react/no-unescaped-entities": "warn",
         "no-prototype-builtins": "warn",
         "no-unreachable": "warn",
