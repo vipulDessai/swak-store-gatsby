@@ -1,0 +1,185 @@
+import "./header.css";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import logo from "../../images/logo.svg";
+
+function Header() {
+  function constructor(props, context) {
+    super(props, context);
+    this.state = {
+      active: false,
+      showSearch: false,
+    };
+  }
+  function componentDidUpdate() {
+    if (document.body.offsetWidth < 1000)
+      document.querySelector(".menu-mobile .searchText input").focus();
+    else document.querySelector(".menu .searchText input").focus();
+  }
+  function toggle() {
+    this.setState({ active: !this.state.active });
+  }
+  function openSearch() {
+    if (this.state.showSearch) {
+      let searchText;
+      if (document.body.offsetWidth < 1000)
+        searchText = document
+          .querySelector(".menu-mobile .searchText input")
+          .value.trim();
+      else
+        searchText = document
+          .querySelector(".menu .searchText input")
+          .value.trim();
+      window.location = "/upsProducts/?searchText=" + searchText;
+    } else {
+      this.setState({ showSearch: true });
+    }
+  }
+  function closeSearch() {
+    this.setState({ showSearch: false });
+  }
+  function submitProduct(e) {
+    if (e.key === "Enter") {
+      window.location =
+        "/upsProducts/?searchText=" + e.currentTarget.value.trim();
+    }
+  }
+
+  let menuDropDownClasses = ["menu-dropdown"];
+  let menuNamesClasses = ["menu-name"];
+  let menuBodyClasses = ["menu-body"];
+  if (this.state.active) {
+    menuDropDownClasses.push("active");
+    menuNamesClasses.push("active");
+  }
+  if (this.state.showSearch) {
+    menuBodyClasses.push("showSearch");
+  }
+
+  return (
+    <header>
+      <div className="menu">
+        <div className={menuBodyClasses.join(" ")}>
+          <ul>
+            <li className="logo">
+              <a href="/">
+                <img src={logo} alt="SWAK Logo"></img>
+              </a>
+            </li>
+            <li className="menu-items">
+              <ul>
+                <li className="menu-search">
+                  <ul>
+                    <li>
+                      <button
+                        onClick={this.closeSearch.bind(this)}
+                        className="closeButton">
+                        <FontAwesomeIcon icon="window-close" />
+                      </button>
+                    </li>
+                    <li className="searchText">
+                      <input
+                        type="text"
+                        placeholder="Search"
+                        onKeyDown={this.submitProduct.bind(this)}
+                      />
+                    </li>
+                    <li>
+                      <button
+                        onClick={this.openSearch.bind(this)}
+                        className="searchButton">
+                        <FontAwesomeIcon icon="search" />
+                      </button>
+                    </li>
+                  </ul>
+                </li>
+                <li className="menu-name">
+                  <ul>
+                    <a href="/">
+                      <li>Home</li>
+                    </a>
+                    <a href="/products/">
+                      <li>Products</li>
+                    </a>
+                    <a href="/clients/">
+                      <li>Our Clients</li>
+                    </a>
+                    <a href="/about/">
+                      <li>About</li>
+                    </a>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div className="menu-mobile">
+        <div className={menuBodyClasses.join(" ")}>
+          <ul>
+            <li className="logo">
+              <a href="/">
+                <img src={logo} alt="SWAK Logo"></img>
+              </a>
+            </li>
+            <li className="menu-items">
+              <ul>
+                <li className="menu-search">
+                  <ul>
+                    <li>
+                      <button
+                        onClick={this.closeSearch.bind(this)}
+                        className="closeButton">
+                        <FontAwesomeIcon icon="window-close" />
+                      </button>
+                    </li>
+                    <li className="searchText">
+                      <input
+                        type="text"
+                        placeholder="Search"
+                        onKeyDown={this.submitProduct.bind(this)}
+                      />
+                    </li>
+                    <li>
+                      <button
+                        onClick={this.openSearch.bind(this)}
+                        className="searchButton">
+                        <FontAwesomeIcon icon="search" />
+                      </button>
+                    </li>
+                  </ul>
+                </li>
+                <li
+                  className={menuNamesClasses.join(" ")}
+                  onClick={this.toggle.bind(this)}>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <div className={menuDropDownClasses.join(" ")}>
+          <ul>
+            <a href="/">
+              <li>Home</li>
+            </a>
+            <a href="/products/">
+              <li>Products</li>
+            </a>
+            <a href="/clients/">
+              <li>Our Clients</li>
+            </a>
+            <a href="/about/">
+              <li>About</li>
+            </a>
+          </ul>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+export default Header;
